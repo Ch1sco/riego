@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Switch Estado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .state {
+      font-size: 2em;
+      margin: 20px;
+    }
+    .btn {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .off {
+      color: red;
+    }
+    .on {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Switch Estado</h1>
+  <div id="state" class="state off">Apagado</div>
+  <button id="toggleBtn" class="btn">Cambiar Estado</button>
+
+  <!-- Firebase App (SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js"></script>
+  <script>
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAUkzhnsM4KTAUiDtpeLKaTQO_RoCCdCQA",
+      authDomain: "riego-f04d6.firebaseapp.com",
+      databaseURL: "https://riego-f04d6-default-rtdb.europe-west1.firebasedatabase.app/",
+      projectId: "riego-f04d6",
+      storageBucket: "riego-f04d6.firebasestorage.app",
+      messagingSenderId: "346461971986",
+      appId: "1:346461971986:web:f772b788aa41049d7f1acb",
+      measurementId: "G-8X141S5HHY"
+    };
+  
+    // Inicializar Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const stateRef = firebase.database().ref('estado'); // Ruta en la base de datos
+    const stateElement = document.getElementById('state');
+    const toggleBtn = document.getElementById('toggleBtn');
+
+    // Leer el estado actual desde Firebase
+    stateRef.on('value', (snapshot) => {
+      const estado = snapshot.val();
+      if (estado === 1) {
+        stateElement.textContent = 'Encendido';
+        stateElement.className = 'state on';
+      } else {
+        stateElement.textContent = 'Apagado';
+        stateElement.className = 'state off';
+      }
+    });
+
+    // Cambiar el estado al hacer clic en el botón
+    toggleBtn.addEventListener('click', () => {
+      stateRef.once('value').then((snapshot) => {
+        const estadoActual = snapshot.val();
+        const nuevoEstado = estadoActual === 1 ? 0 : 1;
+        stateRef.set(nuevoEstado);
+      });
+    });
+  </script>
+</body>
+</html>
