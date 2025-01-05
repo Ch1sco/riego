@@ -1,48 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Switch Estado</title>
+  <title>Botón Encendido/Apagado</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 20px;
+      background-color: #f4f4f4;
+      padding: 50px;
     }
-    .state {
-      font-size: 2em;
+
+    h1 {
+      color: #333;
+    }
+
+    #state {
+      font-size: 2rem;
+      font-weight: bold;
       margin: 20px;
-    }
-    .btn {
       padding: 10px 20px;
-      font-size: 1.2em;
-      cursor: pointer;
-      background-color: #007bff;
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    .on {
+      color: white;
+      background-color: green;
+    }
+
+    .off {
+      color: white;
+      background-color: red;
+    }
+
+    #toggleBtn {
+      font-size: 1rem;
+      padding: 10px 20px;
+      background-color: #007BFF;
       color: white;
       border: none;
       border-radius: 5px;
+      cursor: pointer;
     }
-    .btn:hover {
+
+    #toggleBtn:hover {
       background-color: #0056b3;
-    }
-    .off {
-      color: red;
-    }
-    .on {
-      color: green;
     }
   </style>
 </head>
 <body>
-  <h1>Switch Estado</h1>
-  <div id="state" class="state off">Apagado</div>
-  <button id="toggleBtn" class="btn">Cambiar Estado</button>
+  <h1>Control de Estado</h1>
+  <div id="state" class="off">Cargando...</div>
+  <br>
+  <button id="toggleBtn">Cambiar Estado</button>
 
-  <!-- Firebase App (SDK) -->
-  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js"></script>
+  <!-- Scripts de Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database-compat.js"></script>
 
+  <!-- Configuración e implementación -->
   <script>
     // Configuración de Firebase
     const firebaseConfig = {
@@ -58,10 +76,12 @@
 
     // Inicializar Firebase
     console.log("Inicializando Firebase...");
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
+
+    // Acceso a la base de datos en tiempo real
     const database = firebase.database();
 
-    // Referencia al nodo "estado" en la base de datos
+    // Referencia al nodo "estado"
     const stateRef = database.ref('estado');
     const stateElement = document.getElementById('state');
     const toggleBtn = document.getElementById('toggleBtn');
@@ -101,3 +121,4 @@
   </script>
 </body>
 </html>
+
