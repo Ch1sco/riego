@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Botón Encendido/Apagado</title>
+  <!-- Evitar la solicitud del favicon.ico -->
+  <link rel="icon" href="data:,">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -37,11 +39,11 @@
 
     #toggleBtn {
       font-size: 1rem;
-      padding: 25px 35px;
+      padding: 10px 20px;
       background-color: #007BFF;
       color: white;
       border: none;
-      border-radius: 20px;
+      border-radius: 5px;
       cursor: pointer;
     }
 
@@ -51,17 +53,19 @@
   </style>
 </head>
 <body>
-    <h1>Control de Riego</h1>
-    <!--<div id="state" class="off">Cargando...</div>
-    <br>-->
-    <button id="toggleBtn">ON/OFF</button>
+  <h1>Control de Estado</h1>
+  <div id="state" class="off">Cargando...</div>
+  <br>
+  <button id="toggleBtn">Cambiar Estado</button>
 
-    <!-- Scripts de Firebase -->
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database-compat.js"></script>
+  <!-- Scripts de Firebase -->
+   <!-- Firebase SDK -->
 
-    <!-- Configuración e implementación -->
+
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database-compat.js"></script>
+
+  <!-- Configuración e implementación -->
   <script>
     // Configuración de Firebase
     const firebaseConfig = {
@@ -121,3 +125,5 @@
     });
   </script>
 </body>
+</html>
+
