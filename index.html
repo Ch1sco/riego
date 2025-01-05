@@ -1,9 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verificación de ID</title>
+  <title>Botón Encendido/Apagado</title>
+  <!-- Evitar la solicitud del favicon.ico -->
+  <link rel="icon" href="data:,">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,15 +19,6 @@
       color: #333;
     }
 
-    #verificationForm {
-      margin-bottom: 20px;
-    }
-
-    #errorMessage {
-      color: red;
-      display: none;
-    }
-
     #state {
       font-size: 2rem;
       font-weight: bold;
@@ -32,7 +26,6 @@
       padding: 10px 20px;
       border-radius: 5px;
       display: inline-block;
-      display: none;
     }
 
     .on {
@@ -58,79 +51,89 @@
     #toggleBtn:hover {
       background-color: #0056b3;
     }
+
+    /* Estilos para el área de verificación */
+    #verificationArea {
+      display: block;
+      margin: 20px auto;
+    }
+
+    #errorMessage {
+      display: none;
+      color: red;
+    }
   </style>
 </head>
 <body>
-  <h1>Verificación de ID</h1>
+  <h1>Control de Estado</h1>
 
-  <!-- Formulario de verificación -->
-  <div id="verificationForm">
-    <input type="text" id="verificationCode" placeholder="Ingrese su código de verificación" />
+  <!-- Área de verificación -->
+  <div id="verificationArea">
+    <input type="text" id="verificationCodeInput" placeholder="Ingrese el código de verificación">
     <button id="verifyBtn">Verificar</button>
+    <p id="errorMessage">Código incorrecto.</p>
   </div>
 
-  <!-- Mensaje de error -->
-  <div id="errorMessage">Código incorrecto. Intente de nuevo.</div>
+  <!-- El contenido real, que se muestra después de la verificación -->
+  <div id="content" style="display: none;">
+    <div id="state" class="off">Cargando...</div>
+    <br>
+    <button id="toggleBtn">Cambiar Estado</button>
+  </div>
 
-  <!-- Contenido bloqueado hasta verificación -->
-  <div id="state" class="off">Cargando...</div>
-  <br>
-  <button id="toggleBtn" style="display: none;">Cambiar Estado</button>
-
-  <!-- Firebase Scripts -->
+  <!-- Scripts de Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database-compat.js"></script>
 
   <script>
     // Configuración de Firebase
     const firebaseConfig = {
-      apiKey: "AIzaSyAUkzhnsM4KTAUiDtpeLKaTQO_RoCCdCQA",
-      authDomain: "riego-f04d6.firebaseapp.com",
-      databaseURL: "https://riego-f04d6-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "riego-f04d6",
-      storageBucket: "riego-f04d6.firebasestorage.app",
-      messagingSenderId: "346461971986",
-      appId: "1:346461971986:web:f772b788aa41049d7f1acb",
-      measurementId: "G-8X141S5HHY"
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_AUTH_DOMAIN",
+      databaseURL: "TU_DATABASE_URL",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_STORAGE_BUCKET",
+      messagingSenderId: "TU_MESSAGING_SENDER_ID",
+      appId: "TU_APP_ID",
+      measurementId: "TU_MEASUREMENT_ID"
     };
 
     // Inicializar Firebase
     firebase.initializeApp(firebaseConfig);
-
-    // Acceso a la base de datos en tiempo real
     const database = firebase.database();
-    const stateRef = database.ref('estado');
-    const verificationCodeRef = database.ref('verificationCode');  // Aquí almacenaremos el código de verificación
 
-    // Elementos del DOM
-    const verificationCodeInput = document.getElementById('verificationCode');
-    const verifyBtn = document.getElementById('verifyBtn');
-    const errorMessage = document.getElementById('errorMessage');
+    // Referencia al código de verificación en la base de datos de Firebase
+    const verificationCodeRef = database.ref('verificationCode');
+    const stateRef = database.ref('estado');
     const stateElement = document.getElementById('state');
     const toggleBtn = document.getElementById('toggleBtn');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const verificationCodeInput = document.getElementById('verificationCodeInput');
+    const errorMessage = document.getElementById('errorMessage');
+    const content = document.getElementById('content');
+    const verificationArea = document.getElementById('verificationArea');
 
-    // Botón de verificación
+    // Evento al hacer clic en el botón de verificación
     verifyBtn.addEventListener('click', () => {
       const enteredCode = verificationCodeInput.value.trim();
-      
+
       if (enteredCode === "") {
         errorMessage.textContent = "Por favor, ingrese un código.";
         errorMessage.style.display = "block";
         return;
       }
 
-      // Verificar el código de verificación en Firebase
+      // Verificar el código en Firebase
       verificationCodeRef.once('value')
         .then((snapshot) => {
-          const storedCode = snapshot.val();
+          const storedCode = snapshot.val();  // El código almacenado en Firebase
 
           if (enteredCode === storedCode) {
-            // Código correcto
             errorMessage.style.display = "none";
-            showStateUI();
+            verificationArea.style.display = "none"; // Ocultar área de verificación
+            content.style.display = "block";  // Mostrar contenido de la página
           } else {
-            // Código incorrecto
-            errorMessage.style.display = "block";
+            errorMessage.style.display = "block";  // Mostrar mensaje de error
           }
         })
         .catch((error) => {
@@ -138,34 +141,34 @@
         });
     });
 
-    // Mostrar la interfaz después de la verificación
-    function showStateUI() {
-      stateElement.style.display = "inline-block";
-      toggleBtn.style.display = "inline-block";
+    // Leer el estado actual desde Firebase y mostrarlo
+    stateRef.on('value', (snapshot) => {
+      const estado = snapshot.val();
+      if (estado === 1) {
+        stateElement.textContent = 'Encendido';
+        stateElement.className = 'on';
+      } else {
+        stateElement.textContent = 'Apagado';
+        stateElement.className = 'off';
+      }
+    }, (error) => {
+      console.error("Error al leer el estado:", error);
+    });
 
-      // Leer el estado desde Firebase
-      stateRef.on('value', (snapshot) => {
-        const estado = snapshot.val();
-        if (estado === 1) {
-          stateElement.textContent = 'Encendido';
-          stateElement.className = 'on';
-        } else {
-          stateElement.textContent = 'Apagado';
-          stateElement.className = 'off';
-        }
-      });
-
-      // Cambiar el estado al hacer clic en el botón
-      toggleBtn.addEventListener('click', () => {
-        stateRef.once('value').then((snapshot) => {
-          const estadoActual = snapshot.val();
-          const nuevoEstado = estadoActual === 1 ? 0 : 1;
-          stateRef.set(nuevoEstado);
+    // Cambiar el estado al hacer clic en el botón
+    toggleBtn.addEventListener('click', () => {
+      stateRef.once('value').then((snapshot) => {
+        const estadoActual = snapshot.val();
+        const nuevoEstado = estadoActual === 1 ? 0 : 1;
+        stateRef.set(nuevoEstado).then(() => {
+          console.log("Estado actualizado con éxito.");
         }).catch((error) => {
           console.error("Error al actualizar el estado:", error);
         });
+      }).catch((error) => {
+        console.error("Error al obtener el estado actual:", error);
       });
-    }
+    });
   </script>
 </body>
 </html>
