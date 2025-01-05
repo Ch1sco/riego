@@ -42,6 +42,7 @@
   <!-- Firebase App (SDK) -->
   <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js"></script>
+
   <script>
     // Configuración de Firebase
     const firebaseConfig = {
@@ -58,10 +59,10 @@
     // Inicializar Firebase
     console.log("Inicializando Firebase...");
     const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    const database = firebase.database();
 
     // Referencia al nodo "estado" en la base de datos
-    const stateRef = db.ref('estado');
+    const stateRef = database.ref('estado');
     const stateElement = document.getElementById('state');
     const toggleBtn = document.getElementById('toggleBtn');
 
