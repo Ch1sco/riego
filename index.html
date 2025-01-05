@@ -47,25 +47,29 @@
     const firebaseConfig = {
       apiKey: "AIzaSyAUkzhnsM4KTAUiDtpeLKaTQO_RoCCdCQA",
       authDomain: "riego-f04d6.firebaseapp.com",
-      databaseURL: "https://riego-f04d6-default-rtdb.europe-west1.firebasedatabase.app/estado",
+      databaseURL: "https://riego-f04d6-default-rtdb.firebaseio.com", // Asegúrate de que esta URL es correcta
       projectId: "riego-f04d6",
       storageBucket: "riego-f04d6.firebasestorage.app",
       messagingSenderId: "346461971986",
       appId: "1:346461971986:web:f772b788aa41049d7f1acb",
       measurementId: "G-8X141S5HHY"
     };
-  
+
     // Inicializar Firebase
+    console.log("Inicializando Firebase...");
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    const stateRef = firebase.database().ref('estado'); // Ruta en la base de datos
+    // Referencia al nodo "estado" en la base de datos
+    const stateRef = db.ref('estado');
     const stateElement = document.getElementById('state');
     const toggleBtn = document.getElementById('toggleBtn');
 
     // Leer el estado actual desde Firebase
+    console.log("Leyendo estado desde Firebase...");
     stateRef.on('value', (snapshot) => {
       const estado = snapshot.val();
+      console.log("Estado recibido desde Firebase:", estado);
       if (estado === 1) {
         stateElement.textContent = 'Encendido';
         stateElement.className = 'state on';
@@ -73,14 +77,24 @@
         stateElement.textContent = 'Apagado';
         stateElement.className = 'state off';
       }
+    }, (error) => {
+      console.error("Error al leer el estado:", error);
     });
 
     // Cambiar el estado al hacer clic en el botón
     toggleBtn.addEventListener('click', () => {
+      console.log("Cambiando el estado...");
       stateRef.once('value').then((snapshot) => {
         const estadoActual = snapshot.val();
         const nuevoEstado = estadoActual === 1 ? 0 : 1;
-        stateRef.set(nuevoEstado);
+        console.log("Estado actual:", estadoActual, " - Nuevo estado:", nuevoEstado);
+        stateRef.set(nuevoEstado).then(() => {
+          console.log("Estado actualizado con éxito.");
+        }).catch((error) => {
+          console.error("Error al actualizar el estado:", error);
+        });
+      }).catch((error) => {
+        console.error("Error al obtener el estado actual:", error);
       });
     });
   </script>
