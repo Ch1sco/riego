@@ -39,11 +39,11 @@
 
     #toggleBtn {
       font-size: 1rem;
-      padding: 10px 20px;
+      padding: 20px 30px;
       background-color: #007BFF;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 20px;
       cursor: pointer;
     }
 
@@ -53,15 +53,13 @@
   </style>
 </head>
 <body>
-  <h1>Control de Estado</h1>
+  <h1>Cotrol de Riego</h1>
   <div id="state" class="off">Cargando...</div>
   <br>
-  <button id="toggleBtn">Cambiar Estado</button>
+  <button id="toggleBtn">ON/OFF</button>
 
   <!-- Scripts de Firebase -->
    <!-- Firebase SDK -->
-
-
   <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database-compat.js"></script>
 
@@ -91,11 +89,15 @@
     const stateElement = document.getElementById('state');
     const toggleBtn = document.getElementById('toggleBtn');
 
+    // Lee el estado del codigo de verificacion
+    const stateRef = database.ref('verificationCode');
+
     // Leer el estado actual desde Firebase
     console.log("Leyendo estado desde Firebase...");
     stateRef.on('value', (snapshot) => {
       const estado = snapshot.val();
       console.log("Estado recibido desde Firebase:", estado);
+      console.log("Codigo recibido desde Firebase:", verificationCode);
       if (estado === 1) {
         stateElement.textContent = 'Encendido';
         stateElement.className = 'state on';
