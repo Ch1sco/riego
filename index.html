@@ -125,12 +125,7 @@
       console.error("Error al leer el estado:", error);
     });
 
-    if (validateInput = numberInput) {
-      console.log("CORRECTO");
-      
-    } else{
-      console.log("NO   CORRECTO");
-    }
+    
 
     // Cambiar el estado al hacer clic en el botón
     toggleBtn.addEventListener('click', () => {
@@ -165,6 +160,12 @@
   function fetchData() {
     const numberInput = document.getElementById('numberInput').value;
     console.log('Número ingresado:', numberInput);
+    if (validateInput = numberInput) {
+      console.log("CORRECTO");
+      
+    } else{
+      console.log("NO   CORRECTO");
+    }
   }
 
 
