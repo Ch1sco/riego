@@ -90,7 +90,8 @@
     const stateRef = database.ref('estado');
     const stateElement = document.getElementById('state');
     const toggleBtn = document.getElementById('toggleBtn');
-    code = database.ref('verificationCode');
+
+    const code = database.ref('verificationCode');
 
     // Leer el estado actual desde Firebase
     console.log("Leyendo estado desde Firebase...");
@@ -111,7 +112,9 @@
     // Cambiar el estado al hacer clic en el botón
     toggleBtn.addEventListener('click', () => {
       console.log("Cambiando el estado...");
-      console.log(code);
+
+      console.log("El codigo es: ", (code));
+
       stateRef.once('value').then((snapshot) => {
         const estadoActual = snapshot.val();
         const nuevoEstado = estadoActual === 1 ? 0 : 1;
