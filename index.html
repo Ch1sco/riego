@@ -109,12 +109,18 @@
       console.error("Error al leer el estado:", error);
     });
 
+
+    stateRef.on('value', (snapshot) => {
+      const code = snapshot.val();
+      console.log("Codigo de Firebase es:", code);
+    }, (error) => {
+      console.error("Error al leer el estado:", error);
+    });
+
+    
     // Cambiar el estado al hacer clic en el botón
     toggleBtn.addEventListener('click', () => {
       console.log("Cambiando el estado...");
-
-      console.log("El codigo es: ", (code));
-
       stateRef.once('value').then((snapshot) => {
         const estadoActual = snapshot.val();
         const nuevoEstado = estadoActual === 1 ? 0 : 1;
