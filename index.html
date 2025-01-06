@@ -58,10 +58,23 @@
   <br>
   <button id="toggleBtn">Cambiar Estado</button>
 
+
+  
+  <div>
+    <input
+      type="text"
+      id="numberInput"
+      maxlength="4"
+      placeholder="Escribe 4 números"
+      oninput="validateInput(this)"
+    />
+    <button id="fetchDataBtn" disabled onclick="fetchData()">Consultar Firebase</button>
+  </div>
+
+
+
   <!-- Scripts de Firebase -->
    <!-- Firebase SDK -->
-
-
   <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database-compat.js"></script>
 
@@ -158,7 +171,7 @@
     // Aquí puedes añadir tu lógica para usar el número ingresado
   }
 
-  
+
 
   </script>
 </body>
