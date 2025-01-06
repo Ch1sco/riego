@@ -134,6 +134,32 @@
         console.error("Error al obtener el estado actual:", error);
       });
     });
+
+
+
+
+    // Validar entrada de números
+  function validateInput(input) {
+    const value = input.value;
+    const fetchDataBtn = document.getElementById('fetchDataBtn');
+
+    // Permitir solo números
+    input.value = value.replace(/[^0-9]/g, '');
+
+    // Habilitar el botón solo si hay 4 dígitos
+    fetchDataBtn.disabled = value.length !== 4;
+  }
+
+  // Acción al presionar el botón (ajusta esta parte según tu lógica)
+  function fetchData() {
+    const numberInput = document.getElementById('numberInput').value;
+    console.log('Número ingresado:', numberInput);
+
+    // Aquí puedes añadir tu lógica para usar el número ingresado
+  }
+
+  
+
   </script>
 </body>
 </html>
