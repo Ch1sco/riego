@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Botón Encendido/Apagado</title>
+  <!-- Evitar la solicitud del favicon.ico -->
+  <link rel="icon" href="data:,">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,9 +13,11 @@
       background-color: #f4f4f4;
       padding: 50px;
     }
+
     h1 {
       color: #333;
     }
+
     #state {
       font-size: 2rem;
       font-weight: bold;
@@ -22,38 +26,46 @@
       border-radius: 5px;
       display: inline-block;
     }
+
     .on {
       color: white;
       background-color: green;
     }
+
     .off {
       color: white;
       background-color: red;
     }
+
     #toggleBtn {
       font-size: 1rem;
-      padding: 25px 35px;
+      padding: 10px 20px;
       background-color: #007BFF;
       color: white;
       border: none;
-      border-radius: 20px;
+      border-radius: 5px;
       cursor: pointer;
     }
+
     #toggleBtn:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-    <h1>Control de Riego</h1>
-    <!--<div id="state" class="off">Cargando...</div>
-    <br>-->
-    <button id="toggleBtn">ON/OFF</button>
-    <!-- Scripts de Firebase -->
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database-compat.js"></script>
-    <!-- Configuración e implementación -->
+  <h1>Control de Estado</h1>
+  <div id="state" class="off">Cargando...</div>
+  <br>
+  <button id="toggleBtn">Cambiar Estado</button>
+
+  <!-- Scripts de Firebase -->
+   <!-- Firebase SDK -->
+
+
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database-compat.js"></script>
+
+  <!-- Configuración e implementación -->
   <script>
     // Configuración de Firebase
     const firebaseConfig = {
@@ -66,15 +78,19 @@
       appId: "1:346461971986:web:f772b788aa41049d7f1acb",
       measurementId: "G-8X141S5HHY"
     };
+
     // Inicializar Firebase
     console.log("Inicializando Firebase...");
     firebase.initializeApp(firebaseConfig);
+
     // Acceso a la base de datos en tiempo real
     const database = firebase.database();
+
     // Referencia al nodo "estado"
     const stateRef = database.ref('estado');
     const stateElement = document.getElementById('state');
     const toggleBtn = document.getElementById('toggleBtn');
+
     // Leer el estado actual desde Firebase
     console.log("Leyendo estado desde Firebase...");
     stateRef.on('value', (snapshot) => {
@@ -90,6 +106,7 @@
     }, (error) => {
       console.error("Error al leer el estado:", error);
     });
+
     // Cambiar el estado al hacer clic en el botón
     toggleBtn.addEventListener('click', () => {
       console.log("Cambiando el estado...");
@@ -108,4 +125,4 @@
     });
   </script>
 </body>
-
+</html>
