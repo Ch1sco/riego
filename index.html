@@ -126,9 +126,6 @@
     code.on('value', (snapshot) => {
       const code1 = snapshot.val();
       console.log("Codigo de Firebase es:", code1);
-
-      console.log("Codigo de verificacion es:", validateInput);
-
     }, (error) => {
       console.error("Error al leer el estado:", error);
     });
@@ -170,8 +167,6 @@
   function fetchData() {
     const numberInput = document.getElementById('numberInput').value;
     console.log('Número ingresado:', numberInput);
-
-    // Aquí puedes añadir tu lógica para usar el número ingresado
   }
 
 
