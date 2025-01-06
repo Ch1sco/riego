@@ -58,8 +58,6 @@
   <br>
   <button id="toggleBtn">ON/OFF</button>
 
-
-
   <div>
     <input
       type="text"
@@ -68,10 +66,8 @@
       placeholder="Escribe 4 números"
       oninput="validateInput(this)"
     />
-    <button id="fetchDataBtn" disabled onclick="fetchData()">Consultar Firebase</button>
+    <button id="fetchDataBtn" disabled onclick="fetchData()">Validar</button>
   </div>
-
-
 
   <!-- Scripts de Firebase -->
    <!-- Firebase SDK -->
@@ -122,7 +118,6 @@
       console.error("Error al leer el estado:", error);
     });
 
-
     code.on('value', (snapshot) => {
       const code1 = snapshot.val();
       console.log("Codigo de Firebase es:", code1);
@@ -130,6 +125,12 @@
       console.error("Error al leer el estado:", error);
     });
 
+    if (validateInput = numberInput) {
+      console.log("CORRECTO");
+      
+    } else{
+      console.log("NO   CORRECTO");
+    }
 
     // Cambiar el estado al hacer clic en el botón
     toggleBtn.addEventListener('click', () => {
@@ -148,9 +149,6 @@
       });
     });
 
-
-
-
     // Validar entrada de números
     function validateInput(input) {
       const value = input.value;
@@ -168,7 +166,6 @@
     const numberInput = document.getElementById('numberInput').value;
     console.log('Número ingresado:', numberInput);
   }
-
 
 
   </script>
