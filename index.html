@@ -68,6 +68,7 @@
       placeholder="Escribe 4 números"
       oninput="validateInput(this)"
     />
+    <button id="fetchDataBtn" disabled onclick="fetchData()">Consultar Firebase</button>
   </div>
 
 
@@ -127,7 +128,7 @@
       console.log("Codigo de Firebase es:", code1);
 
       console.log("Codigo de verificacion es:", validateInput);
-      
+
     }, (error) => {
       console.error("Error al leer el estado:", error);
     });
@@ -154,15 +155,15 @@
 
 
     // Validar entrada de números
-  function validateInput(input) {
-    const value = input.value;
-    const fetchDataBtn = document.getElementById('fetchDataBtn');
+    function validateInput(input) {
+      const value = input.value;
+      const fetchDataBtn = document.getElementById('fetchDataBtn');
 
     // Permitir solo números
-    input.value = value.replace(/[^0-9]/g, '');
+      input.value = value.replace(/[^0-9]/g, '');
 
     // Habilitar el botón solo si hay 4 dígitos
-    fetchDataBtn.disabled = value.length !== 4;
+      fetchDataBtn.disabled = value.length !== 4;
   }
 
   // Acción al presionar el botón (ajusta esta parte según tu lógica)
